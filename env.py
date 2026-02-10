@@ -58,11 +58,11 @@ class Env:
             if max_val > 0:
                 # Find all indices that tied for the max
                 winners_idx = np.where(field_troops == max_val)[0]
-                points_per_winner = self.field_values[f] / len(winners_idx)
+                # points_per_winner = self.field_values[f] / len(winners_idx)
 
-                for idx in winners_idx:
-                    winner_name = self.agent_names[idx]
-                    self.scores[winner_name] += points_per_winner
+                # for idx in winners_idx:
+                #     winner_name = self.agent_names[idx]
+                #     self.scores[winner_name] += points_per_winner
 
                 # For reporting: only one winner if no tie, else -1
                 # round_winners.append(
@@ -71,6 +71,9 @@ class Env:
                 #     else f"Tie: {[self.agent_names[i] for i in winners_idx]}"
                 # )
                 if len(winners_idx) == 1:
+                    self.scores[self.agent_names[winners_idx[0]]] += self.field_values[
+                        f
+                    ]
                     round_winners.append(winners_idx[0])
                 else:
                     round_winners.append(-1)
