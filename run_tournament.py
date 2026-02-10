@@ -52,7 +52,6 @@ def run_round_logic(env, agents):
             print(f"Agent {agent.name} crashed: {e}")
             move = np.zeros(env.num_fields)
 
-        # Validation: No negatives and no over-spending
         if (
             np.any(move < 0)
             or np.sum(move) > current_state["balances"][agent.name]
@@ -72,7 +71,7 @@ def run_round_logic(env, agents):
 def start_tournament():
     # Setup
     num_fields = 5
-    field_values = [np.random.randint(1, 10) for _ in range(num_fields)]
+    field_values = [np.random.randint(2, 10) for _ in range(num_fields)]
     agents = load_agents()
     agent_names = [a.name for a in agents]
 
@@ -94,7 +93,7 @@ def start_tournament():
         print(f"ROUND {r} RESULTS:")
         for i, w in enumerate(winners):
             print(
-                f"  Field {i} (Val {field_values[i]}): Winner -> {w}  Allocation: {field_allocations[i]}"
+                f"  Field {i} (Val {field_values[i]}): Winner -> {agent_names[w] if w >= 0 else 'Tie'}  Allocation: {field_allocations[i]}"
             )
 
         print(f"Scores: {state['scores']}")

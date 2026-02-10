@@ -65,13 +65,17 @@ class Env:
                     self.scores[winner_name] += points_per_winner
 
                 # For reporting: only one winner if no tie, else -1
-                round_winners.append(
-                    self.agent_names[winners_idx[0]]
-                    if len(winners_idx) == 1
-                    else f"Tie: {[self.agent_names[i] for i in winners_idx]}"
-                )
+                # round_winners.append(
+                #     self.agent_names[winners_idx[0]]
+                #     if len(winners_idx) == 1
+                #     else f"Tie: {[self.agent_names[i] for i in winners_idx]}"
+                # )
+                if len(winners_idx) == 1:
+                    round_winners.append(winners_idx[0])
+                else:
+                    round_winners.append(-1)
             else:
-                round_winners.append("None")
+                round_winners.append(-1)
 
         # 3. Update history
         self.history.append(copy.deepcopy(round_allocations))

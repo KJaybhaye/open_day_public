@@ -6,8 +6,6 @@ import random
 class Agent(AbstractAgent):
     """
     puts uniform soldirs for each field in each round.
-
-    You can access name of your own agent using self.name which is a string value
     """
 
     def get_allocation(
