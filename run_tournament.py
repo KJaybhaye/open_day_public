@@ -2,14 +2,16 @@ import os
 import importlib.util
 import numpy as np
 from env import Env
+import tomllib
 
-YOUR_NAME = "Your_Name"
+with open("config.toml", "rb") as f:
+    config = tomllib.load(f)
 
 
 def load_agents(folder_path="Sample_Agents"):
     """Dynamically loads all Agent classes from the Agents folder."""
     agents = []
-    paths = [folder_path, YOUR_NAME]
+    paths = [folder_path, config["player"]["NAME"]]
     for f_path in paths:
         for filename in os.listdir(f_path):
             if filename.endswith(".py") and filename != "__init__.py":
@@ -70,7 +72,9 @@ def run_round_logic(env, agents):
 
 def start_tournament():
     # Setup
-    num_fields = 5
+    num_fields = config["env"]["num_fields"]
+    rounds = config["env"]["rounds"]
+    start_balance = config["env"]["start_balance"]
     field_values = [np.random.randint(2, 10) for _ in range(num_fields)]
     agents = load_agents()
     agent_names = [a.name for a in agents]
@@ -79,8 +83,8 @@ def start_tournament():
         agent_names,
         field_values,
         num_fields=num_fields,
-        total_rounds=10,
-        starting_soldiers=200,
+        total_rounds=rounds,
+        starting_soldiers=start_balance,
     )
 
     print(f"--- Tournament Start ---")
@@ -93,7 +97,7 @@ def start_tournament():
         print(f"ROUND {r} RESULTS:")
         for i, w in enumerate(winners):
             print(
-                f"  Field {i} (Val {field_values[i]}): Winner -> {agent_names[w] if w >= 0 else 'Tie'}  Allocation: {field_allocations[i]}"
+                f"  Field {i} (Val {field_values[i]}): Winner -> {agent_names[w] if w >= 0 else 'Tie'}  Allocations: {field_allocations[i]}"
             )
 
         print(f"Scores: {state['scores']}")

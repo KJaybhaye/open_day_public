@@ -1,0 +1,7 @@
+[player]
+NAME = "Your_Name"
+
+[env]
+num_fields = 5
+start_balance = 200
+rounds = 10

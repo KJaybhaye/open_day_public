@@ -4,14 +4,14 @@
 
 Welcome to the IISc Open Day Game Challenge!
 
-In this competition, you will design a strategy for a multi-agent game. You are a commander with a limited pool of soldiers. Over multiple rounds, you must decide how many soldiers to send to different battlefields and how many to keep in reserve for later rounds. At each round winner of a particular field will win gold equalt ot the value of that field. At end of last round player with most gold wins.
+In this competition, you will design a strategy for a multi-agent game. You are a commander with a limited pool of soldiers. Over multiple rounds, you must decide how many soldiers to send to different battlefields and how many to keep in reserve for later rounds. At each round winner of a particular field will win gold equal to the value of that field. At end of last round, the player with most gold wins.
 
 ## 🎮 The Rules
 
 1. **Multiple Battlefields:** There are  battlefields, each with a different point value.
 2. **Allocation:** In each round, you distribute some of your remaining soldiers across these battlefields.
-3. **Winning:** For each battlefield, the player who sends the most soldiers wins the points for that field. In the event of a tie, the points are split.
-4. **Resource Management:** Soldiers sent to battle **do not return**. You must manage your total budget across all rounds of the tournament.
+3. **Winning:** For each battlefield, the player who sends the most soldiers wins the points for that field. In the event of a tie, everyone gets zero reward.
+4. **Resource Management:** Soldiers sent to battle **do not return**. You must manage your total budget across all rounds of the tournament. Fields start as empty at each round.
 5. **Information:** You can see the history of what other agents did in previous rounds to adapt your strategy.
 
 ---
@@ -30,8 +30,7 @@ You are given a sample environment. Note that number of rounds, number of player
 
 * **Do Not** change the function signature of `get_allocation`.
 * **Do Not** rename the class `Agent`.
-* **Do Not** attempt to modify the `history` or `balances` dictionaries (we pass you copies, but play fair!).
-* **Do Not** use external libraries other than `numpy`.
+<!-- * **Do Not** use external libraries other than `numpy`. -->
 
 ### Example Template (`agent.py`):
 
@@ -42,7 +41,7 @@ import numpy as np
 class Agent(AbstractAgent):
     def get_allocation(self, my_balance, field_values, num_fields, history, current_balances, total_rounds, current_round):
         # Example strategy: Distribute remaining soldiers equally across all fields
-        # but only spend 20% of the current balance per round.
+        # but only spend balance / remaning_round soldirs
         
         move = np.zeros(num_fields)
         budget_for_this_round = my_balance * 0.2
@@ -56,14 +55,15 @@ class Agent(AbstractAgent):
 
 ---
 
-## 🚀 How to Run the Experimentation Sandbox
+## How to Run the Experimentation Sandbox
 
-Before submitting, you should test your agent against the baseline bots provided in the `Sample_Agents` folder. You can add more agents here to try against each other.
+Before submitting, you should test your agent against the baseline bots provided in the `Sample_Agents` folder. You can add more agents here to try against each other. Environment configuration is in `config.toml` file.
 
-First change the `YOUR_NAME` variable in `run_tournament.py` to name of your folder. Then run the `run_tournament.py` as follow:
+First change the `NAME` variable in `config.toml` to name of your folder. Then run the `run_tournament.py`. It takes all the agents defined in `Sample_Agents` folder and the agents defined in `Your_Name` folder and makes them play against each other.
 
 
-### Option 1: Using `pip` (Standard)
+
+### Option 1: Using `pip`
 
 1. Install the requirements:
 ```bash
@@ -80,7 +80,7 @@ python tournament_runner.py
 
 
 
-### Option 2: Using `uv` (Fast / Recommended for 2026)
+### Option 2: Using `uv`
 
 If you have `uv` installed, you can run the tournament without manually managing environments:
 
