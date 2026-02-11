@@ -39,17 +39,27 @@ from agent_class import AbstractAgent
 import numpy as np
 
 class Agent(AbstractAgent):
-    def get_allocation(self, my_balance, field_values, num_fields, history, current_balances, total_rounds, current_round):
-        # Example strategy: Distribute remaining soldiers equally across all fields
-        # but only spend balance / remaning_round soldirs
-        
-        move = np.zeros(num_fields)
-        budget_for_this_round = my_balance * 0.2
-        
-        share = budget_for_this_round / num_fields
-        move.fill(share)
-        
-        return move.tolist()
+    def get_allocation(
+        self,
+        current_balance,
+        field_values,
+        num_fields,
+        history,
+        balances,
+        total_rounds,
+        current_round,
+    ) -> list:
+        """
+        Spend available units uniformly across all fields and rounds
+        On last round spend whole balance
+        """
+        if current_round == total_rounds:
+            round_spending = current_balance
+        else:
+            round_spending = current_balance // (total_rounds - current_round + 1)
+            round_spending = min(current_balance, round_spending)
+        average = round_spending // num_fields
+        return [average] * num_fields
 
 ```
 
@@ -74,7 +84,7 @@ pip install numpy
 
 2. Run the tournament:
 ```bash
-python tournament_runner.py
+python run_tournament.py
 
 ```
 
@@ -85,7 +95,7 @@ python tournament_runner.py
 If you have `uv` installed, you can run the tournament without manually managing environments:
 
 ```bash
-uv run tournament_runner.py
+uv run run_tournament.py
 
 ```
 
@@ -99,7 +109,7 @@ Once you are happy with your strategy:
 
 1. Submit `Your_Name` folder.
 2. If you used helper files, include them in the same folder.
-3. Submission method: Will be given later.
+3. Submission method: Will be given soon.
 
 **Note:** Our final tournament script will dynamically scan your folder and load your `Agent` class. If the folder structure or class name is incorrect, your agent will be unable to join the battle!
 
