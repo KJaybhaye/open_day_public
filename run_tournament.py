@@ -30,6 +30,51 @@ def load_agents(folder_path="Sample_Agents"):
     return agents
 
 
+def validate_allocation(allocation, n, t, name):
+    """
+    Validates the allocation list based on:
+    1. Length must be exactly N.
+    2. All values must be non-negative integers.
+    3. The sum of values must be strictly less than T.
+
+    Returns: The original list if valid, otherwise a list of N zeros.
+    """
+    fallback = np.zeros(n, dtype=int)
+
+    # 1. Check if input is list-like and has correct length
+    if not isinstance(allocation, (list, np.ndarray)) or len(allocation) != n:
+        return fallback
+
+    try:
+        # Convert to numpy array for vectorized checks
+        arr = np.array(allocation)
+
+        # 2. Check for integer types (or floats that are equivalent to integers)
+        # and ensure all values are positive (>= 0)
+        # Change to (arr > 0) if 0 is strictly forbidden.
+        is_integer_type = np.issubdtype(arr.dtype, np.integer) or np.all(
+            np.equal(np.mod(arr, 1), 0)
+        )
+        is_positive = np.all(arr >= 0)
+
+        if not (is_integer_type and is_positive):
+            print(f"Invalid move from {name}. Disqualifying round.")
+            return fallback
+
+        # 3. Check if sum is smaller than T
+        if np.sum(arr) > t:
+            print(f"Invalid move from {name}. Disqualifying round.")
+            return fallback
+
+        # Return as a standard list of integers
+        return arr.astype(int)
+
+    except Exception as e:
+        # Catch-all for unexpected data types within the list (e.g., strings)
+        print(f"Invalid move from {name}. Disqualifying round.")
+        return fallback
+
+
 def run_round_logic(env, agents):
     """Referees the round: Gets moves, validates them, and calls env.step."""
     current_state = env.get_state()
@@ -49,17 +94,12 @@ def run_round_logic(env, agents):
                 env.total_rounds,
                 current_state["current_round"] + 1,
             )
+            move = validate_allocation(
+                move, env.num_fields, current_state["balances"][agent.name], agent.name
+            )
             move = np.array(move)
         except Exception as e:
             print(f"Agent {agent.name} crashed: {e}")
-            move = np.zeros(env.num_fields)
-
-        if (
-            np.any(move < 0)
-            or np.sum(move) > current_state["balances"][agent.name]
-            or len(move) != env.num_fields
-        ):
-            print(f"Invalid move from {agent.name}. Disqualifying round.")
             move = np.zeros(env.num_fields)
 
         round_allocations[agent.name] = move.tolist()
