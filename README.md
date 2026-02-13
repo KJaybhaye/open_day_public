@@ -69,7 +69,7 @@ class Agent(AbstractAgent):
 
 Before submitting, you should test your agent against the baseline bots provided in the `Sample_Agents` folder. You can add more agents here to try against each other. Environment configuration is in `config.toml` file.
 
-First change the `NAME` variable in `config.toml` to name of your folder. Then run the `run_tournament.py`. It takes all the agents defined in `Sample_Agents` folder and the agents defined in `Your_Name` folder and makes them play against each other.
+First change the `NAME` variable in `config.toml` to name of your folder. Run the   `validate.py` to check if your folder strucute and agent code is proper. Then run the `run_tournament.py`. It takes all the agents defined in `Sample_Agents` folder and the agents defined in `Your_Name` folder and makes them play against each other.
 
 
 
