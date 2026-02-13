@@ -15,6 +15,13 @@ In this competition, you will design a strategy for a multi-agent game. You are 
 5. **Information:** You can see the history of what other agents did in previous rounds to adapt your strategy.
 
 ---
+## Structure
+- `env.py`: Game environment
+- `agent_class.py`: Abstract class to be inherited for creation of agents
+- `validate.py`: Validates the structure of `Your_name\agent.py` file and validates the values returned by `get_allocation` function
+- `Sample_Agents`: Folder containing sample agents
+- `Your_name`: Folder for your code
+- `run_tournament.py`: Runs tournament between all the agents in `Sample_Agents` and the agent defined in `Your_name\agent.py`
 
 
 ## 🛠️ How to Write Your Agent
@@ -67,7 +74,7 @@ class Agent(AbstractAgent):
 
 ## How to Run the Experimentation Sandbox
 
-Before submitting, you should test your agent against the baseline bots provided in the `Sample_Agents` folder. You can add more agents here to try against each other. Environment configuration is in `config.toml` file.
+You can test your agent against the baseline bots provided in the `Sample_Agents` folder. You can add more agents here to try against each other. Environment configuration is in `config.toml` file.
 
 First change the `NAME` variable in `config.toml` to name of your folder. Run the   `validate.py` to check if your folder strucute and agent code is proper. Then run the `run_tournament.py`. It takes all the agents defined in `Sample_Agents` folder and the agents defined in `Your_Name` folder and makes them play against each other.
 
