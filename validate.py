@@ -5,6 +5,42 @@ import numpy as np
 from agent_class import AbstractAgent
 
 
+num_fields = 5
+field_values = [5, 2, 8, 4, 3]
+total_rounds = 5
+dummy_name = "your_agent"
+dummy_bals = [
+    {"random_agent": 100, "uniform_agent": 100, dummy_name: 100},
+    {"random_agent": 4, "uniform_agent": 20, dummy_name: 60},
+]
+dummy_rounds = [1, 5]
+dummy_histories = [
+    [],
+    [
+        {
+            "random_agent": [0, 5, 5, 10, 1],
+            "uniform_agent": [4, 4, 4, 4, 4],
+            dummy_name: [4, 4, 4, 4, 4],
+        },
+        {
+            "random_agent": [2, 2, 0, 6, 3],
+            "uniform_agent": [4, 4, 4, 4, 4],
+            dummy_name: [4, 4, 4, 4, 4],
+        },
+        {
+            "random_agent": [2, 20, 7, 14, 1],
+            "uniform_agent": [4, 4, 4, 4, 4],
+            dummy_name: [0, 0, 0, 0, 0],
+        },
+        {
+            "random_agent": [3, 7, 0, 1, 7],
+            "uniform_agent": [4, 4, 4, 4, 4],
+            dummy_name: [0, 0, 0, 0, 0],
+        },
+    ],
+]
+
+
 def validate_agent_submission(folder_path):
     print(f"--- Validating Agent in: {folder_path} ---")
 
@@ -18,8 +54,9 @@ def validate_agent_submission(folder_path):
     # 2. Dynamically load the module
     try:
         # module_name = "participant_agent"
-        module_name = folder_path
-        spec = importlib.util.spec_from_file_location(module_name, agent_file)
+        # module_name = folder_path
+        name = dummy_name
+        spec = importlib.util.spec_from_file_location(name, agent_file)
         module = importlib.util.module_from_spec(spec)
         # Add the folder to sys.path so their internal imports work
         sys.path.append(folder_path)
@@ -42,57 +79,52 @@ def validate_agent_submission(folder_path):
 
     # 5. Test Instantiation and get_allocation
     try:
-        # Sample Inputs
-        # name = "Tester"
-        name = folder_path
         agent_instance = AgentClass(name=name)
+        for i in range(len(dummy_rounds)):
+            current_balance = dummy_bals[i][dummy_name]
+            history = dummy_histories[i]
+            balances = dummy_bals[i]
+            current_round = dummy_rounds[i]
 
-        # Mock Game State
-        num_fields = 5
-        current_balance = 100
-        field_values = [5, 2, 8, 4, 3]
-        history = []  # Empty history for round 1
-        balances = {name: 100, "Opponent": 100}
-        total_rounds = 10
-        current_round = 1
-
-        print(f"[INFO] Testing 'get_allocation' for {name}...")
-        allocation = agent_instance.get_allocation(
-            current_balance,
-            field_values,
-            num_fields,
-            history,
-            balances,
-            total_rounds,
-            current_round,
-        )
-
-        # 6. Validate Output Structure (Mirroring tournament logic)
-        if not isinstance(allocation, (list, np.ndarray)):
             print(
-                f"[ERROR] Output must be a list or numpy array. Got: {type(allocation)}"
+                f"[INFO] Testing 'get_allocation' for {name}..for round {current_round}/{total_rounds}..."
             )
-            return False
-
-        if len(allocation) != num_fields:
-            print(
-                f"[ERROR] Allocation length ({len(allocation)}) doesn't match num_fields ({num_fields})"
+            allocation = agent_instance.get_allocation(
+                current_balance,
+                field_values,
+                num_fields,
+                history,
+                balances,
+                total_rounds,
+                current_round,
             )
-            return False
 
-        alloc_sum = sum(allocation)
-        if alloc_sum > current_balance:
-            print(
-                f"[ERROR] Total allocation ({alloc_sum}) exceeds current balance ({current_balance})"
-            )
-            return False
+            # 6. Validate Output Structure (Mirroring tournament logic)
+            if not isinstance(allocation, (list, np.ndarray)):
+                print(
+                    f"[ERROR] Output must be a list or numpy array. Got: {type(allocation)}"
+                )
+                return False
 
-        if any(x < 0 for x in allocation):
-            print(f"[ERROR] Negative allocations are not allowed: {allocation}")
-            return False
+            if len(allocation) != num_fields:
+                print(
+                    f"[ERROR] Allocation length ({len(allocation)}) doesn't match num_fields ({num_fields})"
+                )
+                return False
 
-        print(f"[SUCCESS] Agent '{name}' passed all local checks!")
-        print(f"Sample Output: {allocation}")
+            alloc_sum = sum(allocation)
+            if alloc_sum > current_balance:
+                print(
+                    f"[ERROR] Total allocation ({alloc_sum}) exceeds current balance ({current_balance})"
+                )
+                return False
+
+            if any(x < 0 for x in allocation):
+                print(f"[ERROR] Negative allocations are not allowed: {allocation}")
+                return False
+
+            print(f"[SUCCESS] Agent '{name}' passed all local checks!")
+            print(f"Sample Output: {allocation}")
         return True
 
     except Exception as e:
