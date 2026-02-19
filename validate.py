@@ -3,42 +3,91 @@ import sys
 import importlib.util
 import numpy as np
 from agent_class import AbstractAgent
+from multiprocessing import Process
 
 
-num_fields = 5
-field_values = [5, 2, 8, 4, 3]
-total_rounds = 5
-dummy_name = "your_agent"
-dummy_bals = [
-    {"random_agent": 100, "uniform_agent": 100, dummy_name: 100},
-    {"random_agent": 4, "uniform_agent": 20, dummy_name: 60},
+TIMEOUT = 10  # seconds to wait for output from a get_allocation function
+NUM_FIELDS = 5
+FIELD_VALUES = [5, 2, 8, 4, 3]
+TOTAL_ROUNDS = 5
+DUMMY_NAME = "your_agent"
+DUMMY_BALANCES = [
+    {"random_agent": 100, "uniform_agent": 100, DUMMY_NAME: 100},
+    {"random_agent": 4, "uniform_agent": 20, DUMMY_NAME: 60},
 ]
-dummy_rounds = [1, 5]
-dummy_histories = [
+DUMMY_ROUNDS = [1, 5]
+DUMMY_HISTORIES = [
     [],
     [
         {
             "random_agent": [0, 5, 5, 10, 1],
             "uniform_agent": [4, 4, 4, 4, 4],
-            dummy_name: [4, 4, 4, 4, 4],
+            DUMMY_NAME: [4, 4, 4, 4, 4],
         },
         {
             "random_agent": [2, 2, 0, 6, 3],
             "uniform_agent": [4, 4, 4, 4, 4],
-            dummy_name: [4, 4, 4, 4, 4],
+            DUMMY_NAME: [4, 4, 4, 4, 4],
         },
         {
             "random_agent": [2, 20, 7, 14, 1],
             "uniform_agent": [4, 4, 4, 4, 4],
-            dummy_name: [0, 0, 0, 0, 0],
+            DUMMY_NAME: [0, 0, 0, 0, 0],
         },
         {
             "random_agent": [3, 7, 0, 1, 7],
             "uniform_agent": [4, 4, 4, 4, 4],
-            dummy_name: [0, 0, 0, 0, 0],
+            DUMMY_NAME: [0, 0, 0, 0, 0],
         },
     ],
 ]
+
+
+class FunctionTimeoutError(Exception):
+    """Exception raised when a function takes too long."""
+
+    def __init__(self, message="The operation timed out"):
+        self.message = message
+        super().__init__(self.message)
+
+
+def validate_output(
+    agent_instance, current_balance, history, balances, total_rounds, current_round
+):
+    allocation = agent_instance.get_allocation(
+        current_balance,
+        FIELD_VALUES,
+        NUM_FIELDS,
+        history,
+        balances,
+        total_rounds,
+        current_round,
+    )
+
+    # Validate Output Structure (Mirroring tournament logic)
+    if not isinstance(allocation, (list, np.ndarray)):
+        print(f"[ERROR] Output must be a list or numpy array. Got: {type(allocation)}")
+        return False
+
+    if len(allocation) != NUM_FIELDS:
+        print(
+            f"[ERROR] Allocation length ({len(allocation)}) doesn't match NUM_FIELDS ({NUM_FIELDS})"
+        )
+        return False
+
+    alloc_sum = sum(allocation)
+    if alloc_sum > current_balance:
+        print(
+            f"[ERROR] Total allocation ({alloc_sum}) exceeds current balance ({current_balance})"
+        )
+        return False
+
+    if any(x < 0 for x in allocation):
+        print(f"[ERROR] Negative allocations are not allowed: {allocation}")
+        return False
+
+    print(f"[SUCCESS] Agent '{agent_instance.name}' passed all local checks!")
+    print(f"Sample Output: {allocation}")
 
 
 def validate_agent_submission(folder_path):
@@ -53,9 +102,7 @@ def validate_agent_submission(folder_path):
 
     # 2. Dynamically load the module
     try:
-        # module_name = "participant_agent"
-        # module_name = folder_path
-        name = dummy_name
+        name = DUMMY_NAME
         spec = importlib.util.spec_from_file_location(name, agent_file)
         module = importlib.util.module_from_spec(spec)
         # Add the folder to sys.path so their internal imports work
@@ -77,55 +124,55 @@ def validate_agent_submission(folder_path):
         print("[ERROR] Class 'Agent' must inherit from 'AbstractAgent'")
         return False
 
-    # 5. Test Instantiation and get_allocation
+    # 5. Test Instantiation and get_allocation function
     try:
         agent_instance = AgentClass(name=name)
-        for i in range(len(dummy_rounds)):
-            current_balance = dummy_bals[i][dummy_name]
-            history = dummy_histories[i]
-            balances = dummy_bals[i]
-            current_round = dummy_rounds[i]
+        for i in range(len(DUMMY_ROUNDS)):
+            current_balance = DUMMY_BALANCES[i][DUMMY_NAME]
+            history = DUMMY_HISTORIES[i]
+            balances = DUMMY_BALANCES[i]
+            current_round = DUMMY_ROUNDS[i]
 
             print(
-                f"[INFO] Testing 'get_allocation' for {name}..for round {current_round}/{total_rounds}..."
-            )
-            allocation = agent_instance.get_allocation(
-                current_balance,
-                field_values,
-                num_fields,
-                history,
-                balances,
-                total_rounds,
-                current_round,
+                f"[INFO] Testing 'get_allocation' for {name}..for round {current_round}/{TOTAL_ROUNDS}..."
             )
 
-            # 6. Validate Output Structure (Mirroring tournament logic)
-            if not isinstance(allocation, (list, np.ndarray)):
-                print(
-                    f"[ERROR] Output must be a list or numpy array. Got: {type(allocation)}"
+            # 6. Validate output
+            p = Process(
+                target=validate_output,
+                args=(
+                    agent_instance,
+                    current_balance,
+                    history,
+                    balances,
+                    TOTAL_ROUNDS,
+                    current_round,
+                ),
+            )
+            p.start()
+
+            # wait for MAX_T seconds only
+            p.join(timeout=TIMEOUT)
+            if p.is_alive():
+                p.terminate()  # Kill the process
+                p.join()
+                raise FunctionTimeoutError(
+                    "Function is taking too long to return a value!"
                 )
-                return False
+                # print("Function timed out and was terminated.")
 
-            if len(allocation) != num_fields:
-                print(
-                    f"[ERROR] Allocation length ({len(allocation)}) doesn't match num_fields ({num_fields})"
-                )
-                return False
-
-            alloc_sum = sum(allocation)
-            if alloc_sum > current_balance:
-                print(
-                    f"[ERROR] Total allocation ({alloc_sum}) exceeds current balance ({current_balance})"
-                )
-                return False
-
-            if any(x < 0 for x in allocation):
-                print(f"[ERROR] Negative allocations are not allowed: {allocation}")
-                return False
-
-            print(f"[SUCCESS] Agent '{name}' passed all local checks!")
-            print(f"Sample Output: {allocation}")
+            # validate_output(
+            #     agent_instance,
+            #     current_balance,
+            #     history,
+            #     balances,
+            #     TOTAL_ROUNDS,
+            #     current_round,
+            # )
         return True
+
+    except FunctionTimeoutError as e:
+        print(f"[ERROR] : {e}")
 
     except Exception as e:
         print(f"[ERROR] Agent crashed during execution: {e}")
