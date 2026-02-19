@@ -93,11 +93,11 @@ def validate_output(
 def validate_agent_submission(folder_path):
     print(f"--- Validating Agent in: {folder_path} ---")
 
-    agent_file = os.path.join(folder_path, "agent.py")
+    agent_file = os.path.join(folder_path, "your_agent.py")
 
     # 1. Check if file exists
     if not os.path.exists(agent_file):
-        print(f"[ERROR] No 'agent.py' found in {folder_path}")
+        print(f"[ERROR] No 'your_agent.py' found in {folder_path}")
         return False
 
     # 2. Dynamically load the module
@@ -109,12 +109,12 @@ def validate_agent_submission(folder_path):
         sys.path.append(folder_path)
         spec.loader.exec_module(module)
     except Exception as e:
-        print(f"[ERROR] Failed to import agent.py: {e}")
+        print(f"[ERROR] Failed to import your_agent.py: {e}")
         return False
 
     # 3. Check for 'Agent' class
     if not hasattr(module, "Agent"):
-        print("[ERROR] No class named 'Agent' found in agent.py")
+        print("[ERROR] No class named 'Agent' found in your_agent.py")
         return False
 
     AgentClass = module.Agent

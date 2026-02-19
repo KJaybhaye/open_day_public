@@ -18,16 +18,16 @@ In this competition, you will design a strategy for a multi-agent game. You are 
 ## Structure
 - `env.py`: Game environment
 - `agent_class.py`: Abstract class to be inherited for creation of agents
-- `validate.py`: Validates the structure of `Your_name\agent.py` file and validates the values returned by `get_allocation` function
+- `validate.py`: Validates the structure of `Your_name\your_agent.py` file and validates the values returned by `get_allocation` function
 - `Sample_Agents`: Folder containing sample agents
 - `Your_name`: Folder for your code
-- `run_tournament.py`: Runs tournament between all the agents in `Sample_Agents` and the agent defined in `Your_name\agent.py`
+- `run_tournament.py`: Runs tournament between all the agents in `Sample_Agents` and the agent defined in `Your_name\your_agent.py`
 
 
 ## 🛠️ How to Write Your Agent
 
-1. Change the name of `Your_Name` folder to your name (e.g., `Alice_Smith_Agent`).
-2. Inside that folder, inside the `agent.py` file write you code in `get_allocation` function.
+1. Change the name of `Your_name` folder to your name (e.g., `Alice_Bob`).
+2. Inside that folder, inside the `your_agent.py` file write you code in `get_allocation` function.
 
 ## Coniguration of Environment
 You are given a sample environment. Note that number of rounds, number of players, number of fileds, field values and starting soldiers may be changed for final tournament. This information will be availble to your agents `get_allocation` function through arguments. 
@@ -39,7 +39,7 @@ You are given a sample environment. Note that number of rounds, number of player
 * **Do Not** rename the class `Agent`.
 <!-- * **Do Not** use external libraries other than `numpy`. -->
 
-### Example Template (`agent.py`):
+### Example Template (`your_agent.py`):
 
 ```python
 from agent_class import AbstractAgent
@@ -76,7 +76,7 @@ class Agent(AbstractAgent):
 
 You can test your agent against the baseline bots provided in the `Sample_Agents` folder. You can add more agents here to try against each other. Environment configuration is in `config.toml` file.
 
-First change the `NAME` variable in `config.toml` to name of your folder. Run the   `validate.py` to check if your folder strucute and agent code is proper. Then run the `run_tournament.py`. It takes all the agents defined in `Sample_Agents` folder and the agents defined in `Your_Name` folder and makes them play against each other.
+First change the `NAME` variable in `config.toml` to name of your folder. Run the   `validate.py` to check if your folder strucute and agent code is proper. Then run the `run_tournament.py`. It takes all the agents defined in `Sample_Agents` folder and the agents defined in `Your_name` folder and makes them play against each other.
 
 
 
@@ -114,7 +114,7 @@ uv run run_tournament.py
 
 Once you are happy with your strategy:
 
-1. Submit `Your_Name` folder.
+1. Submit `Your_name` folder.
 2. If you used helper files, include them in the same folder.
 3. Submission method: Will be given soon.
 
