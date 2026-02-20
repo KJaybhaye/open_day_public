@@ -7,12 +7,15 @@ Welcome to the IISc Open Day Game Challenge!
 In this competition, you will design a strategy for a multi-agent game. You are a commander with a limited pool of soldiers. Over multiple rounds, you must decide how many soldiers to send to different battlefields and how many to keep in reserve for later rounds. At each round winner of a particular field will win gold equal to the value of that field. At end of last round, the player with most gold wins.
 
 ## 🎮 The Rules
+Detailed rules are provided in the [detailed_rules.md](detailed_rules.md) file.
 
-1. **Multiple Battlefields:** There are  battlefields, each with a different point value.
-2. **Allocation:** In each round, you distribute some of your remaining soldiers across these battlefields.
-3. **Winning:** For each battlefield, the player who sends the most soldiers wins the points for that field. In the event of a tie, everyone gets zero reward.
-4. **Resource Management:** Soldiers sent to battle **do not return**. You must manage your total budget across all rounds of the tournament. Fields start as empty at each round.
-5. **Information:** You can see the history of what other agents did in previous rounds to adapt your strategy.
+1. **Multiple Battlefields:** There are N battlefields, each with a amount of gold. (eg. 5 Fields)
+2. **Starting Balance:** Each player starts with same fixed number of soldiers. (eg. 100 Soldirs)
+3. **Multiple Rounds:** Game runs for T number of rounds. (e.g 10 rounds)
+4. **Allocation:** In each round, you distribute some of your remaining soldiers across these battlefields.
+5. **Winning:** For each battlefield, the player who sends the most soldiers wins the gold in that field. In the event of a tie, everyone gets zero gold.
+6. **Resource Management:** Soldiers sent to battle **do not return**. You must manage your total budget across all rounds of the tournament. Fields start as empty at each round.
+7. **Information:** You can see the history of what other agents did in previous rounds to adapt your strategy.
 
 ---
 ## Structure
@@ -33,10 +36,11 @@ In this competition, you will design a strategy for a multi-agent game. You are 
 You are given a sample environment. Note that number of rounds, number of players, number of fileds, field values and starting soldiers may be changed for final tournament. This information will be availble to your agents `get_allocation` function through arguments. 
 
 
-### ⚠️ Important "Don'ts"
+### ⚠️ Important "DOs" and "Don'ts"
 
 * **Do Not** change the function signature of `get_allocation`.
 * **Do Not** rename the class `Agent`.
+* **Do** use only standard libraries like numpy and pandas.
 <!-- * **Do Not** use external libraries other than `numpy`. -->
 
 ### Example Template (`your_agent.py`):
@@ -72,7 +76,7 @@ class Agent(AbstractAgent):
 
 ---
 
-## How to Run the Experimentation Sandbox
+## How to Run the Experimentation
 
 You can test your agent against the baseline bots provided in the `Sample_Agents` folder. You can add more agents here to try against each other. Environment configuration is in `config.toml` file.
 
@@ -117,6 +121,4 @@ Once you are happy with your strategy:
 1. Submit `Your_name` folder.
 2. If you used helper files, include them in the same folder.
 3. Submission method: Will be given soon.
-
-**Note:** Our final tournament script will dynamically scan your folder and load your `Agent` class. If the folder structure or class name is incorrect, your agent will be unable to join the battle!
 
