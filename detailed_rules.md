@@ -5,18 +5,18 @@
 ### 1. Resources & Battlefields
 
 * **Soldiers:** Every player starts with an identical starting balance of soldiers.
-* **Battlefields:** There are `n` number of battlefields. Each has a specific **Gold Value** that remains **constant** throughout the entire game.
+* **Battlefields:** There are `n` number of battlefields. Each has a specific **Value** that remains **constant** throughout the entire game.
 * **Deployment:** Each round, you distribute your soldiers across these `n` fields(cannot deploy more than you balance).
 
 ### 2. Winning a Field
 
-* **Highest Bidder:** The player who commits the **highest number of soldiers** to a field wins all the gold for that field for that round.
-* **The Tie-Break:** If two or more players tie for the highest number of soldiers, **no one wins the gold** (0 gold awarded).
+* **Highest Bidder:** The player who commits the **highest number of soldiers** to a field wins all the points associated with field for that round.
+* **The Tie-Break:** If two or more players tie for the highest number of soldiers, **no one wins any points** (0 point awarded).
 * **Sunk Costs:** Soldiers deployed to battle **do not return**, regardless of whether you win or lose. They are permanently removed from your balance.
 
 ### 3. Victory Condition
 
-The game lasts for `T` rounds. The player with the **highest cumulative gold** at the end of the final round is the winner.
+The game lasts for `T` rounds. The player with the **highest cumulative points** at the end of the final round is the winner.
 
 ---
 
@@ -27,13 +27,13 @@ To understand how **Agent War** plays out, let’s look at a 3-round game with 3
 **Setup:**
 
 * **Starting Soldiers:** 50 each.
-* **Field Gold Values:** `[10, 20, 30, 10, 5]` (Total 75 gold available per round).
+* **Field Values:** `[10, 20, 30, 10, 5]` (Total 75 points available per round).
 
 ### Round 1
 
 Players distribute their first set of soldiers.
 
-| Field (Gold Value) | Alpha (Spent) | Beta (Spent) | Gamma (Spent) | Winner | Gold Awarded |
+| Field (Value) | Alpha (Spent) | Beta (Spent) | Gamma (Spent) | Winner | points Awarded |
 | --- | --- | --- | --- | --- | --- |
 | **Field 1 (10)** | 5 | **10** | 2 | **Beta** | Beta +10 |
 | **Field 2 (20)** | **15** | 0 | 10 | **Alpha** | Alpha +20 |
@@ -50,7 +50,7 @@ Players distribute their first set of soldiers.
 
 In this round, Beta tries to dominate again, but Alpha and Gamma adapt.
 
-| Field (Gold Value) | Alpha (Spent) | Beta (Spent) | Gamma (Spent) | Winner | Gold Awarded |
+| Field (Value) | Alpha (Spent) | Beta (Spent) | Gamma (Spent) | Winner | points Awarded |
 | --- | --- | --- | --- | --- | --- |
 | **Field 1 (10)** | 0 | **5** | 0 | **Beta** | Beta +10 |
 | **Field 2 (20)** | 0 | **5** | 0 | **Beta** | Beta +20 |
@@ -69,7 +69,7 @@ In this round, Beta tries to dominate again, but Alpha and Gamma adapt.
 
 Gamma was the only player who saved a small reserve for the end.
 
-| Field (Gold Value) | Alpha (Spent) | Beta (Spent) | Gamma (Spent) | Winner | Gold Awarded |
+| Field (Value) | Alpha (Spent) | Beta (Spent) | Gamma (Spent) | Winner | points Awarded |
 | --- | --- | --- | --- | --- | --- |
 | **Field 1 (10)** | 0 | 0 | 0 | TIE | 0 |
 | **Field 2 (20)** | 0 | 0 | **1** | **Gamma**  | Gamma +20 |
@@ -81,7 +81,7 @@ Gamma was the only player who saved a small reserve for the end.
 
 ### 🏆 Final Leaderboard
 
-| Rank | Player | Total Gold | Logic |
+| Rank | Player | Total points | Logic |
 | --- | --- | --- | --- |
 | **1st** | **Beta** | **70** | Dominated early with high spending. |
 | **2nd** | **Gamma** | **35** | Strategically saved soldiers to win the final round 
@@ -102,7 +102,7 @@ Your agent must implement the `get_allocation` method in `your_agent.py`. The en
 def get_allocation(
     self,
     current_balance,  # Int: Your remaining soldiers
-    field_values,     # List[Int]: Gold values (e.g., [5, 2, 8, 4, 3])
+    field_values,     # List[Int]: values (e.g., [5, 2, 8, 4, 3])
     num_fields,       # Int: Total number of fields
     history,          # List[Dict]: Historical moves (see below)
     balances,         # Dict: Current soldier balances of all players

@@ -4,16 +4,16 @@
 
 Welcome to the IISc Open Day Game Challenge!
 
-In this competition, you will design a strategy for a multi-agent game. You are a commander with a limited pool of soldiers. Over multiple rounds, you must decide how many soldiers to send to different battlefields and how many to keep in reserve for later rounds. At each round winner of a particular field will win gold equal to the value of that field. At end of last round, the player with most gold wins.
+In this competition, you will design a strategy for a multi-agent game. You are a commander with a limited pool of soldiers. Over multiple rounds, you must decide how many soldiers to send to different battlefields and how many to keep in reserve for later rounds. At each round winner of a particular field will win points equal to the value of that field. At end of last round, the player with most points wins.
 
 ## 🎮 The Rules
 Detailed rules are provided in the [detailed_rules.md](detailed_rules.md) file.
 
-1. **Multiple Battlefields:** There are N battlefields, each with a amount of gold. (eg. 5 Fields)
+1. **Multiple Battlefields:** There are N battlefields, each with a certain amount of points associated with it. (eg. 5 Fields)
 2. **Starting Balance:** Each player starts with same fixed number of soldiers. (eg. 100 Soldirs)
 3. **Multiple Rounds:** Game runs for T number of rounds. (e.g 10 rounds)
 4. **Allocation:** In each round, you distribute some of your remaining soldiers across these battlefields.
-5. **Winning:** For each battlefield, the player who sends the most soldiers wins the gold in that field. In the event of a tie, everyone gets zero gold.
+5. **Winning:** For each battlefield, the player who sends the most soldiers wins the points corresponding to that field. In the event of a tie, everyone gets zero points.
 6. **Resource Management:** Soldiers sent to battle **do not return**. You must manage your total budget across all rounds of the tournament. Fields start as empty at each round.
 7. **Information:** You can see the history of what other agents did in previous rounds to adapt your strategy.
 
