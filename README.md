@@ -1,6 +1,6 @@
 
 
-# Agent War
+# Code & Conquer
 
 Welcome to the IISc Open Day Game Challenge!
 
