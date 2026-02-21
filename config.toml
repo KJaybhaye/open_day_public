@@ -5,3 +5,8 @@ NAME = "Your_name"
 num_fields = 5
 start_balance = 200
 rounds = 10
+
+[human_play]
+num_fields = 5
+start_balance = 100
+rounds = 5
