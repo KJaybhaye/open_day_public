@@ -3,6 +3,7 @@ import importlib.util
 import numpy as np
 from env import Env
 import tomllib
+import sys
 
 with open("config.toml", "rb") as f:
     config = tomllib.load(f)
@@ -11,7 +12,7 @@ with open("config.toml", "rb") as f:
 def load_agents(folder_path="Sample_Agents"):
     """Dynamically loads all Agent classes from the Agents folder."""
     agents = []
-    paths = [folder_path, config["player"]["NAME"]]
+    paths = [folder_path]
     for f_path in paths:
         for filename in os.listdir(f_path):
             if filename.endswith(".py") and filename != "__init__.py":
@@ -27,6 +28,20 @@ def load_agents(folder_path="Sample_Agents"):
                     # We use the filename (without .py) as the unique agent name
                     agent_instance = module.Agent(name=module_name)
                     agents.append(agent_instance)
+    name = config["player"]["NAME"]
+    spec = importlib.util.spec_from_file_location(
+        name, os.path.join(name, "your_agent.py")
+    )
+    module = importlib.util.module_from_spec(spec)
+    sys.path.append(name)
+    spec.loader.exec_module(module)
+
+    # Create an instance of the 'Agent' class inside the module
+    if hasattr(module, "Agent"):
+        # We use the filename (without .py) as the unique agent name
+        agent_instance = module.Agent(name=name)
+        agents.append(agent_instance)
+
     return agents
 
 
@@ -147,6 +162,9 @@ def start_tournament():
     # Final Result
     winner_name = max(state["scores"], key=state["scores"].get)
     print(f"\n🏆 TOURNAMENT OVER. WINNER: {winner_name} 🏆")
+
+    if config["player"]["NAME"] in sys.path:
+        sys.path.remove(config["player"]["NAME"])
 
 
 if __name__ == "__main__":
