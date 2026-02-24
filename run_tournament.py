@@ -39,7 +39,7 @@ def load_agents(folder_path="Sample_Agents"):
     # Create an instance of the 'Agent' class inside the module
     if hasattr(module, "Agent"):
         # We use the filename (without .py) as the unique agent name
-        agent_instance = module.Agent(name=name)
+        agent_instance = module.Agent(name="Your Agent")
         agents.append(agent_instance)
 
     return agents
@@ -158,10 +158,19 @@ def start_tournament():
         print(f"Scores: {state['scores']}")
         print(f"Balances: {state['balances']}")
         print("-" * 30)
+        print("Press ENTER to continue.....")
+        input()
 
     # Final Result
-    winner_name = max(state["scores"], key=state["scores"].get)
-    print(f"\n🏆 TOURNAMENT OVER. WINNER: {winner_name} 🏆")
+    # state["scores"] = {"random_agent": 51, "uniform_agent": 122, "Your Agent": 122}
+    max_score = max(state["scores"].values())
+    winners = [k for k in state["scores"].keys() if state["scores"].get(k) == max_score]
+    if len(winners) > 1:
+        print(
+            f"\n TOURNAMENT OVER. RESULT: Tie between {','.join(winners[:-1])} and {winners[-1]}"
+        )
+    else:
+        print(f"\n🏆 TOURNAMENT OVER. WINNER: {winners[0]} 🏆")
 
     if config["player"]["NAME"] in sys.path:
         sys.path.remove(config["player"]["NAME"])
