@@ -6,7 +6,7 @@ from agent_class import AbstractAgent
 from multiprocessing import Process
 
 
-TIMEOUT = 10  # seconds to wait for output from a get_allocation function
+TIMEOUT = 30  # seconds to wait for output from a get_allocation function
 NUM_FIELDS = 5
 FIELD_VALUES = [5, 2, 8, 4, 3]
 TOTAL_ROUNDS = 5
@@ -173,6 +173,7 @@ def validate_agent_submission(folder_path):
 
     except FunctionTimeoutError as e:
         print(f"[ERROR] : {e}")
+        return False
 
     except Exception as e:
         print(f"[ERROR] Agent crashed during execution: {e}")

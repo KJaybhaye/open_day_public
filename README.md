@@ -4,14 +4,14 @@
 
 Welcome to the IISc Open Day Game Challenge!
 
-In this competition, you will design a strategy for a multi-agent game. You are a commander with a limited pool of soldiers. Over multiple rounds, you must decide how many soldiers to send to different battlefields and how many to keep in reserve for later rounds. At each round winner of a particular field will win points equal to the value of that field. At end of last round, the player with most points wins.
+In this competition, you will design a strategy for a multi-agent game. You are a commander with a limited pool of soldiers. Over multiple rounds, you must decide how many soldiers to send to different battlefields and how many to keep in reserve for later rounds. In each round, the winner of a particular field earns points equal to the value of that field. At the end of the last round, the player with the most points wins.
 
 ## 🎮 The Rules
 Detailed rules are provided in the [detailed_rules.md](detailed_rules.md) file.
 
-1. **Multiple Battlefields:** There are N battlefields, each with a certain amount of points associated with it. (eg. 5 Fields)
-2. **Starting Balance:** Each player starts with same fixed number of soldiers. (eg. 100 Soldirs)
-3. **Multiple Rounds:** Game runs for T number of rounds. (e.g 10 rounds)
+1. **Multiple Battlefields:** There are `N` battlefields, each with a certain amount of points associated with it. (e.g., 5 Fields)
+2. **Starting Balance:** Each player starts with the same fixed number of soldiers. (e.g., 100 Soldiers)
+3. **Multiple Rounds:**The game runs for `T` rounds. (e.g., 10 rounds)
 4. **Allocation:** In each round, you distribute some of your remaining soldiers across these battlefields.
 5. **Winning:** For each battlefield, the player who sends the most soldiers wins the points corresponding to that field. In the event of a tie, everyone gets zero points.
 6. **Resource Management:** Soldiers sent to battle **do not return**. You must manage your total budget across all rounds of the tournament. Fields start as empty at each round.
@@ -30,10 +30,10 @@ Detailed rules are provided in the [detailed_rules.md](detailed_rules.md) file.
 ## 🛠️ How to Write Your Agent
 
 1. Change the name of `Your_name` folder to your name (e.g., `Alice_Bob`).
-2. Inside that folder, inside the `your_agent.py` file write you code in `get_allocation` function.
+2. Inside that folder, write your code in the `get_allocation` function within `your_agent.py`.
 
-## Coniguration of Environment
-You are given a sample environment. Note that number of rounds, number of players, number of fileds, field values and starting soldiers may be changed for final tournament. This information will be availble to your agents `get_allocation` function through arguments. 
+## Configuration of Environment
+You are given a sample environment. Note that the number of rounds, players, fields, field values, and starting soldiers may change for the final tournament. This information will be available to your agent’s `get_allocation` function through its arguments. 
 
 
 ### ⚠️ Important "DOs" and "Don'ts"
@@ -80,7 +80,7 @@ class Agent(AbstractAgent):
 
 You can test your agent against the baseline bots provided in the `Sample_Agents` folder. You can add more agents here to try against each other. Environment configuration is in `config.toml` file.
 
-First change the `NAME` variable in `config.toml` to name of your folder. Run the   `validate.py` to check if your folder strucute and agent code is proper. Then run the `run_tournament.py`. It takes all the agents defined in `Sample_Agents` folder and the agents defined in `Your_name` folder and makes them play against each other.
+First, change the `NAME` variable in `config.toml` to the name of your folder. Run the   `validate.py` to check if your folder structure and agent code is proper. Then run the `run_tournament.py`. It loads all the agents defined in `Sample_Agents` folder and the agent defined in `Your_name` folder and runs matches between them.
 
 
 
@@ -120,5 +120,5 @@ Once you are happy with your strategy:
 
 1. Submit `Your_name` folder.
 2. If you used helper files, include them in the same folder.
-3. Submission method: Will be given soon.
+3. Submission method: To be announced.
 

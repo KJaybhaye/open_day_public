@@ -23,7 +23,7 @@ class Env:
         self.current_round = 0
         self.balances = {name: self.starting_soldiers for name in self.agent_names}
         self.history = []
-        self.scores = {name: 0.0 for name in self.agent_names}
+        self.scores = {name: 0 for name in self.agent_names}
         return self.get_state()
 
     def get_state(self):
@@ -59,9 +59,9 @@ class Env:
                 # Find all indices that tied for the max
                 winners_idx = np.where(field_troops == max_val)[0]
                 if len(winners_idx) == 1:
-                    self.scores[self.agent_names[winners_idx[0]]] += self.field_values[
-                        f
-                    ]
+                    self.scores[self.agent_names[winners_idx[0]]] += int(
+                        self.field_values[f]
+                    )
                     round_winners.append(winners_idx[0])
                 else:
                     round_winners.append(-1)
