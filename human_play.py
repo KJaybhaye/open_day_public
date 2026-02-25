@@ -170,10 +170,14 @@ def play_game():
         input("\nPress Enter for next round...")
 
     # Final Result
-    final_scores = state["scores"]
-    winner = max(final_scores, key=final_scores.get)
-    print("\n" + "=" * 40)
-    print(f"GAME OVER! WINNER: {winner}")
+    max_score = max(state["scores"].values())
+    winners = [k for k in state["scores"].keys() if state["scores"].get(k) == max_score]
+    if len(winners) > 1:
+        print(
+            f"\n GAME OVER!. RESULT: Tie between {','.join(winners[:-1])} and {winners[-1]}"
+        )
+    else:
+        print(f"\n🏆 GAME OVER!. WINNER: {winners[0]} 🏆")
     print("=" * 40)
 
 
