@@ -31,6 +31,7 @@ Detailed rules are provided in the [detailed_rules.md](detailed_rules.md) file.
 
 1. Change the name of `Your_name` folder to your name (e.g., `Alice_Bob`).
 2. Inside that folder, write your code in the `get_allocation` function within `your_agent.py`.
+3. **Important**: Keep your code inside a single file. Using multiple files and relative imports may lead to errors when running on different systems. 
 
 ## Configuration of Environment
 You are given a sample environment. Note that the number of rounds, players, fields, field values, and starting soldiers may change for the final tournament. This information will be available to your agent’s `get_allocation` function through its arguments. 
@@ -41,6 +42,7 @@ You are given a sample environment. Note that the number of rounds, players, fie
 * **Do Not** change the function signature of `get_allocation`.
 * **Do Not** rename the class `Agent`.
 * **Do** use only standard libraries like numpy and pandas.
+* **Do** run `validate.py` file to do some validation checks
 <!-- * **Do Not** use external libraries other than `numpy`. -->
 
 ### Example Template (`your_agent.py`):

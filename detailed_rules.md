@@ -146,5 +146,6 @@ The `history` parameter is a list of dictionaries. Each dictionary represents a 
 
 * [ ] Rename your folder from `Your_name` to your actual name (e.g., `Satish_Kumar`).
 * [ ] Ensure `get_allocation` returns a list of non-negative **integers** and the list length is equal the number of fields.
+* [ ] Run `validate.py` file to do some validation checks
 * [ ] Ensure the sum of your allocation does not exceed `current_balance`.
 * [ ] Test your agent against the provided `random_agent` and `uniform_agent` samples.
