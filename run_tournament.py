@@ -33,7 +33,7 @@ def load_agents(folder_path="Sample_Agents"):
         name, os.path.join(name, "your_agent.py")
     )
     module = importlib.util.module_from_spec(spec)
-    sys.path.append(name)
+    # sys.path.append(name)
     spec.loader.exec_module(module)
 
     # Create an instance of the 'Agent' class inside the module
