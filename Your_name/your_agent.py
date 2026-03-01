@@ -6,7 +6,7 @@ from utils import allocation
 
 class Agent(AbstractAgent):
     """
-    Acts randomly but preserves the majority of its balance for future rounds.
+    Your agent template.
     """
 
     def get_allocation(

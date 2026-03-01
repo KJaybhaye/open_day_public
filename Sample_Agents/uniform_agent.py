@@ -5,7 +5,7 @@ import random
 
 class Agent(AbstractAgent):
     """
-    puts uniform soldirs for each field in each round.
+    puts uniform soldiers for each field in each round.
     """
 
     def get_allocation(

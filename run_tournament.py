@@ -142,7 +142,7 @@ def start_tournament():
         starting_soldiers=start_balance,
     )
 
-    print(f"--- Tournament Start ---")
+    print("--- Tournament Start ---")
     print(f"Fields: {num_fields} | Values: {field_values}")
     print(f"Participants: {', '.join(agent_names)}\n")
 
