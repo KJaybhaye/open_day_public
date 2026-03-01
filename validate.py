@@ -106,7 +106,7 @@ def validate_agent_submission(folder_path):
         spec = importlib.util.spec_from_file_location(name, agent_file)
         module = importlib.util.module_from_spec(spec)
         # Add the folder to sys.path so their internal imports work
-        sys.path.append(folder_path)
+        # sys.path.append(folder_path)
         spec.loader.exec_module(module)
     except Exception as e:
         print(f"[ERROR] Failed to import your_agent.py: {e}")
