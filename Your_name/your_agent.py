@@ -1,7 +1,6 @@
 from agent_class import AbstractAgent
 import numpy as np
 import random
-from utils import allocation
 
 
 class Agent(AbstractAgent):
@@ -22,4 +21,4 @@ class Agent(AbstractAgent):
         """
         Write your code here
         """
-        return allocation(num_fields)
+        return [0] * num_fields
