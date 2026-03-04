@@ -120,7 +120,8 @@ uv run run_tournament.py
 
 Once you are happy with your strategy:
 
-1. Submit `Your_name` folder.
-2. If you used helper files, include them in the same folder.
-3. Submission method: To be announced.
+1. Submit `Your_name` folder (after renaming it to your/team's name) as a zip file.
+2. Only keep single file `your_agent.py` in it.
+3. Submission method:  [Fill this form](https://forms.gle/15vgSNduDSqBBaDKA)
+
 
