@@ -90,7 +90,7 @@ def validate_output(
     print(f"Sample Output: {allocation}")
 
 
-def validate_agent_submission(folder_path):
+def validate_agent_submission(folder_path, class_name="Agent"):
     print(f"--- Validating Agent in: {folder_path} ---")
 
     agent_file = os.path.join(folder_path, "your_agent.py")
@@ -103,11 +103,9 @@ def validate_agent_submission(folder_path):
     # 2. Dynamically load the module
     try:
         name = DUMMY_NAME
-        spec = importlib.util.spec_from_file_location(name, agent_file)
-        module = importlib.util.module_from_spec(spec)
-        # Add the folder to sys.path so their internal imports work
         # sys.path.append(folder_path)
-        spec.loader.exec_module(module)
+        module_path = f"{folder_path}.your_agent"
+        module = importlib.import_module(module_path)
     except Exception as e:
         print(f"[ERROR] Failed to import your_agent.py: {e}")
         return False
@@ -117,7 +115,7 @@ def validate_agent_submission(folder_path):
         print("[ERROR] No class named 'Agent' found in your_agent.py")
         return False
 
-    AgentClass = module.Agent
+    AgentClass = getattr(module, class_name)
 
     # 4. Check Inheritance
     if not issubclass(AgentClass, AbstractAgent):
@@ -195,7 +193,6 @@ if __name__ == "__main__":
 
     # target_folder = "Your_Name"
     target_folder = config["player"]["NAME"]
-
     if os.path.exists(target_folder):
         validate_agent_submission(target_folder)
     else:

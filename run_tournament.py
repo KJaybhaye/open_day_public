@@ -9,7 +9,7 @@ with open("config.toml", "rb") as f:
     config = tomllib.load(f)
 
 
-def load_agents(folder_path="Sample_Agents"):
+def load_agents(folder_path="Sample_Agents", class_name="Agent"):
     """Dynamically loads all Agent classes from the Agents folder."""
     agents = []
     paths = [folder_path]
@@ -17,16 +17,14 @@ def load_agents(folder_path="Sample_Agents"):
         for filename in os.listdir(f_path):
             if filename.endswith(".py") and filename != "__init__.py":
                 module_name = filename[:-3]
-                spec = importlib.util.spec_from_file_location(
-                    module_name, os.path.join(f_path, filename)
-                )
-                module = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(module)
+                module_path = f"{folder_path}.{module_name}"
+                module = importlib.import_module(module_path)
 
                 # Create an instance of the 'Agent' class inside the module
                 if hasattr(module, "Agent"):
                     # We use the filename (without .py) as the unique agent name
-                    agent_instance = module.Agent(name=module_name)
+                    agent_class = getattr(module, class_name)
+                    agent_instance = agent_class(name=module_name)
                     agents.append(agent_instance)
     name = config["player"]["NAME"]
     spec = importlib.util.spec_from_file_location(
