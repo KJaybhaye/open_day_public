@@ -26,6 +26,14 @@ Detailed rules are provided in the [detailed_rules.md](detailed_rules.md) file.
 - `Your_name`: Folder for your code
 - `run_tournament.py`: Runs tournament between all the agents in `Sample_Agents` and the agent defined in `Your_name\your_agent.py`
 
+---
+## Example Game Video
+<p align="center" width="100%">
+<video src="https://github.com/user-attachments/assets/e1e15bde-f3a3-446a-b38a-40dea10c9fa5" width="80%" controls></video>
+</p>
+---
+
+
 
 ## 🛠️ How to Write Your Agent
 
