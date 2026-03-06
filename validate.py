@@ -13,11 +13,19 @@ TOTAL_ROUNDS = 5
 DUMMY_NAME = "your_agent"
 DUMMY_BALANCES = [
     {"random_agent": 100, "uniform_agent": 100, DUMMY_NAME: 100},
+    {"random_agent": 90, "uniform_agent": 80, DUMMY_NAME: 86},
     {"random_agent": 4, "uniform_agent": 20, DUMMY_NAME: 60},
 ]
-DUMMY_ROUNDS = [1, 5]
+DUMMY_ROUNDS = [1, 2, 5]
 DUMMY_HISTORIES = [
     [],
+    [
+        {
+            "random_agent": [2, 2, 2, 2, 2],
+            "uniform_agent": [4, 4, 4, 4, 4],
+            DUMMY_NAME: [3, 5, 1, 2, 3],
+        },
+    ],
     [
         {
             "random_agent": [0, 5, 5, 10, 1],
