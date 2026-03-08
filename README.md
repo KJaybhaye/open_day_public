@@ -18,6 +18,38 @@ Detailed rules are provided in the [detailed_rules.md](detailed_rules.md) file.
 7. **Information:** You can see the history of what other agents did in previous rounds to adapt your strategy.
 
 ---
+
+## 🏆 The Tournament is Over! Final Standings
+
+### Tournament Structure
+---
+#### Qualifying Round
+To determine our finalists, we ran games across three group sizes: **2, 3, and 4 players**. For each size, we ran games for every possible combination of players.
+
+* **Game Dynamics:** Each game featured 5 fields, with values selected at random from a large pool of possibilities.
+* **Scoring:** Standings were based on the **average score** across all games played.
+
+---
+
+#### The Final Round
+The top 5 players from the qualifiers advanced to the final round for the ultimate showdown.
+
+* **Format:** We ran 20 games featuring all 5 finalists simultaneously.
+* **Dynamics:** Field values were randomized using the same method as the qualifiers.
+* **Result:** Final standings were determined by the **average score** across these 20 games.
+
+---
+
+### Final Round Standings
+| Rank | Team Name | Player Names | Total Score | Rounds | Average Score |
+| :--- | :---: | :--- | :---: | :---: | :---: |
+| 1 | AdaptiveStrategy | Sidhanth Prabhu, K V Shashank Pai | 1141 | 20 | 57.05 |
+| 2 | Strategic Singularity | Arya Kumar A | 1061 | 20 | 53.05 |
+| 3 | Tech-Blazers | Samavedam Sai Harsha, Siddhartha Reddy, Varshith N | 1031 | 20 | 51.55 |
+| 4 | PillarsOfCreation | B M MANOHARA | 1003 | 20 | 50.15 |
+| 5 | Chetan Anand N | Chetan Anand N | 759 | 20 | 37.95 |
+
+
 ## Structure
 - `env.py`: Game environment
 - `agent_class.py`: Abstract class to be inherited for creation of agents
@@ -115,13 +147,5 @@ uv run run_tournament.py
 *(This will automatically handle dependencies and execution in a transient environment.)*
 
 ---
-
-## 📤 Submission Instructions
-
-Once you are happy with your strategy:
-
-1. Submit `Your_name` folder (after renaming it to your/team's name) as a zip file.
-2. Only keep single file `your_agent.py` in it.
-3. Submission method:  [Fill this form](https://forms.gle/15vgSNduDSqBBaDKA)
 
 
